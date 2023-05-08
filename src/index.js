@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
@@ -10,6 +10,11 @@ root.render(
     <App />
   </React.StrictMode>
 );
+reportWebVitals();
+
+
+
+// import * as serviceWorker from './serviceWorker';
 
 // const rootEl = document.getElementById('root');
 // function render() {
@@ -23,4 +28,4 @@ root.render(
 // }
 // render();
 
-reportWebVitals();
+// serviceWorker.register();
