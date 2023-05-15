@@ -1,29 +1,32 @@
-import NavBar from "../../features/nav/NavBar";
 import EventDashboard from "../../features/events/eventDashboard/EventDashboard";
-import { Container } from "semantic-ui-react";
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "../../features/home/HomePage";
+import EventDetailedPage from "../../features/events/eventDetailed/EventDetailedPage";
+import EventFrom from "../../features/events/eventFrom/EventFrom";
+import Layout from "./Layout";
+import Sandbox from "../../features/sanbox/Sandbox";
+import CreateEventFrom from "../../features/events/eventFrom/CreateEventFrom";
+import ScrollToTop from "./ScrollToTop";
+
 
 function App() {
-  const [formOpen, setFormOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  function handleSelectEvent(event) {
-    setSelectedEvent(event);
-    setFormOpen(true);
-  }
+   return (
+    <>
+      <Router>
+      <ScrollToTop />
 
-  function handleCreateFormOpen(){
-    setSelectedEvent(null);
-    setFormOpen(true);
-  }
-  return (
-    <div>
-        <NavBar setFormOpen={handleCreateFormOpen}/>
-        <Container className="main">
-          <EventDashboard formOpen={formOpen} setFormOpen={setFormOpen} selectEvent={handleSelectEvent} selectedEvent={selectedEvent}/>
-        </Container>
-        
-
-    </div>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<HomePage />}/>
+            <Route path="/events" element={<EventDashboard />}/>
+            <Route path="/sandbox" element={<Sandbox />}/>
+            <Route path="/events/:id" element={<EventDetailedPage />}/>
+            <Route path={"/create-event"} element={<CreateEventFrom />}/>
+            <Route path={"/manage/:id"} element={<EventFrom />}/>
+          </Route>
+        </Routes>
+      </Router>
+    </>
   );
 }
 

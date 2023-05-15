@@ -3,9 +3,9 @@ import { Header, Segment, Form, Input, Button, Container } from 'semantic-ui-rea
 import cuid from 'cuid';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createEvent, updateEvent } from '../eventActions';
+import { createEvent } from '../eventActions';
 
-export default function EventFrom(setFormOpen) {
+export default function CreateEventFrom() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const param = useParams();
@@ -20,9 +20,7 @@ export default function EventFrom(setFormOpen) {
     }
     const [values, setValues] = useState(initialValues);
     function handleFormSubmit (){
-        selectedEvent 
-            ? dispatch(updateEvent ({...selectedEvent, ...values}))
-            : dispatch(createEvent({...values, id: cuid(), hostedBy: 'Wan', attendees: [], hostPhotoURL: '/assets/user.png'}));
+        dispatch(createEvent({...values, id: cuid(), hostedBy: 'Wan', attendees: [], hostPhotoURL: '/assets/user.png'}));
         navigate('/events');
     }
     function handleInputChange(e){
