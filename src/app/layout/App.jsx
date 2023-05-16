@@ -5,7 +5,6 @@ import EventDetailedPage from "../../features/events/eventDetailed/EventDetailed
 import EventFrom from "../../features/events/eventFrom/EventFrom";
 import Layout from "./Layout";
 import Sandbox from "../../features/sanbox/Sandbox";
-import CreateEventFrom from "../../features/events/eventFrom/CreateEventFrom";
 import ScrollToTop from "./ScrollToTop";
 
 
@@ -21,7 +20,7 @@ function App() {
             <Route path="/events" element={<EventDashboard />}/>
             <Route path="/sandbox" element={<Sandbox />}/>
             <Route path="/events/:id" element={<EventDetailedPage />}/>
-            <Route path={"/create-event"} element={<CreateEventFrom />}/>
+            <Route path={"/create-event"} element={<EventFrom />}/>
             <Route path={"/manage/:id"} element={<EventFrom />}/>
           </Route>
         </Routes>

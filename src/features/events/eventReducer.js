@@ -15,7 +15,7 @@ export default function eventReducer( state=initialState, {type, payload}) {
         return {
             ...state,
             events: [
-            ...state.events.filter((evt) => evt.id === payload.id),
+            ...state.events.filter((evt) => evt.id !== payload.id),
             payload,
             ],
         };

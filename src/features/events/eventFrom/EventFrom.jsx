@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import { Header, Segment, Form, Input, Button, Container } from 'semantic-ui-react';
-import cuid from 'cuid';
+import React from 'react';
+import { Header, Segment, Button, Container } from 'semantic-ui-react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import cuid from 'cuid';
 import { createEvent, updateEvent } from '../eventActions';
+import { Formik, Form, Field } from 'formik';
+import MyTextInput from '../../../app/common/form/MyTextInput'
+import * as Yup from 'yup'
+import MyTextArea from '../../../app/common/form/MyTextArea';
+import MySelectInput from '../../../app/common/form/MySelectInput';
+import { categoryData } from '../../../app/api/categoryOptions';
 
 export default function EventFrom(setFormOpen) {
     const navigate = useNavigate();
@@ -18,79 +24,51 @@ export default function EventFrom(setFormOpen) {
         venue: '',
         date: '',
     }
-    const [values, setValues] = useState(initialValues);
-    function handleFormSubmit (){
-        selectedEvent 
-            ? dispatch(updateEvent ({...selectedEvent, ...values}))
-            : dispatch(createEvent({...values, id: cuid(), hostedBy: 'Wan', attendees: [], hostPhotoURL: '/assets/user.png'}));
-        navigate('/events');
-    }
-    function handleInputChange(e){
-        const {name, value} = e.target;
-        setValues({...values, [name]: value})
-    }
+
+    const validationSchema = Yup.object({
+        title: Yup.string().required('You must provide a title'),
+        category: Yup.string().required('You must provide a category'),
+        description: Yup.string().required(),
+        city: Yup.string().required(),
+        venue: Yup.string().required(),
+        date: Yup.string().required(),
+        // city: Yup.object().shape({
+        //   address: Yup.string().required('City is required'),
+        // }),
+        // venue: Yup.object().shape({
+        //   address: Yup.string().required('Venue is required'),
+        // }),
+        // date: Yup.string().required(),
+    });
+
   return (
     <Container className="main">
     <Segment clearing>
         <Header content={selectedEvent ? "Edit the Event" : "Create new event"}/>
-        <Form onSubmit={handleFormSubmit}>
-            <Form.Field>
-                <Input 
-                    type="text" 
-                    placeholder="Event title"
-                    name="title"
-                    value={values.title}
-                    onChange={(e) => handleInputChange(e)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Input 
-                    type="text" 
-                    placeholder="Category"
-                    name="category"
-                    value={values.category}
-                    onChange={(e) => handleInputChange(e)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Input 
-                    type="text" 
-                    placeholder="Description"
-                    name="description"
-                    value={values.description}
-                    onChange={(e) => handleInputChange(e)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Input 
-                    type="text" 
-                    placeholder="City"
-                    name="city"
-                    value={values.city}
-                    onChange={(e) => handleInputChange(e)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Input 
-                    type="text" 
-                    placeholder="Venue"
-                    name="venue"
-                    value={values.venue}
-                    onChange={(e) => handleInputChange(e)}
-                />
-            </Form.Field>
-            <Form.Field>
-                <Input 
-                    type="date" 
-                    placeholder="Date"
-                    name="date"
-                    value={values.date}
-                    onChange={(e) => handleInputChange(e)}
-                />
-            </Form.Field>
-            <Button type="submit" floated="right" positive content="Submit"/>
-            <Button as={Link} to="/events" type="submit" floated="right"  content="Cancel"/>
-        </Form>
+        <Formik 
+            initialValues ={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={(values) => {
+                selectedEvent 
+                    ? dispatch(updateEvent ({...selectedEvent, ...values}))
+                    : dispatch(createEvent({...values, id: cuid(), hostedBy: 'Wan', attendees: [], hostPhotoURL: '/assets/user.png'}));
+                navigate('/events');
+            }}
+        >
+                <Form  className="ui form">
+                    <Header sub color='teal' content='Event Details'/>
+                    <MyTextInput name='title' placeholder="Event Title" />
+                    <MySelectInput name='category' placeholder="Event Category" options={categoryData}/>
+                    <MyTextArea name='description' placeholder="Description" rows={5}/>
+                    <Header sub color='teal' content='Event Location'/>
+                    <MyTextInput name='city' placeholder="City" />
+                    <MyTextInput name='venue' placeholder="Venue" />
+                    <MyTextInput name='date' placeholder="Event Date" type="date"/>
+                    <Button type="submit" floated="right" positive content="Submit"/>
+                    <Button as={Link} to="/events" type="submit" floated="right"  content="Cancel"/>
+                </Form>
+
+        </Formik>
     </Segment>
     </Container>
   )
