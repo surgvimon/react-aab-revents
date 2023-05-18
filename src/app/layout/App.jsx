@@ -6,6 +6,7 @@ import EventFrom from "../../features/events/eventFrom/EventFrom";
 import Layout from "./Layout";
 import Sandbox from "../../features/sanbox/Sandbox";
 import ScrollToTop from "./ScrollToTop";
+import ModalManager from "../common/modals/ModalManager";
 
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
     <>
       <Router>
       <ScrollToTop />
-
+      <ModalManager />
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />}/>

@@ -4,12 +4,13 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import cuid from 'cuid';
 import { createEvent, updateEvent } from '../eventActions';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form} from 'formik';
 import MyTextInput from '../../../app/common/form/MyTextInput'
 import * as Yup from 'yup'
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput';
 import { categoryData } from '../../../app/api/categoryOptions';
+import MyDateInput from '../../../app/common/form/MyDateInput';
 
 export default function EventFrom(setFormOpen) {
     const navigate = useNavigate();
@@ -55,19 +56,43 @@ export default function EventFrom(setFormOpen) {
                 navigate('/events');
             }}
         >
+            {({isSubmitting, dirty, isValid}) =>(
                 <Form  className="ui form">
-                    <Header sub color='teal' content='Event Details'/>
-                    <MyTextInput name='title' placeholder="Event Title" />
-                    <MySelectInput name='category' placeholder="Event Category" options={categoryData}/>
-                    <MyTextArea name='description' placeholder="Description" rows={5}/>
-                    <Header sub color='teal' content='Event Location'/>
-                    <MyTextInput name='city' placeholder="City" />
-                    <MyTextInput name='venue' placeholder="Venue" />
-                    <MyTextInput name='date' placeholder="Event Date" type="date"/>
-                    <Button type="submit" floated="right" positive content="Submit"/>
-                    <Button as={Link} to="/events" type="submit" floated="right"  content="Cancel"/>
-                </Form>
+                <Header sub color='teal' content='Event Details'/>
+                <MyTextInput name='title' placeholder="Event Title" />
+                <MySelectInput name='category' placeholder="Event Category" options={categoryData}/>
+                <MyTextArea name='description' placeholder="Description" rows={5}/>
+                <Header sub color='teal' content='Event Location'/>
+                <MyTextInput name='city' placeholder="City" />
+                <MyTextInput name='venue' placeholder="Venue" />
+                <MyDateInput 
+                    name='date' 
+                    placeholderText="Event Date"
+                    timeFormat="HH:mm"
+                    showTimeSelect
+                    timeCaption='time'
+                    dateFormat='MMMM d, yyyy h:mm a'
+                />
+                <Button 
+                    loading={isSubmitting} 
+                    disabled={!isValid || !dirty || isSubmitting} 
+                    type="submit" 
+                    floated="right" 
+                    positive 
+                    content="Submit"
+                />
+                <Button 
+                    disabled={isSubmitting}
+                    as={Link} 
+                    to="/events" 
+                    type="submit" 
+                    floated="right"  
+                    content="Cancel"
+                />
+            </Form>
 
+
+            )}
         </Formik>
     </Segment>
     </Container>
