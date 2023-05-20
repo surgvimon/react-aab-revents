@@ -11,6 +11,9 @@ import MyTextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput';
 import { categoryData } from '../../../app/api/categoryOptions';
 import MyDateInput from '../../../app/common/form/MyDateInput';
+import { countryData } from '../../../app/api/cityOptions';
+import MyPlaceSelect from '../../../app/common/form/MyPlaceSelect';
+import MyNumInput from '../../../app/common/form/MyNumInput';
 
 export default function EventFrom(setFormOpen) {
     const navigate = useNavigate();
@@ -22,7 +25,13 @@ export default function EventFrom(setFormOpen) {
         category: '',
         description: '',
         city: '',
+        // venue: {
+        //     address: '',
+        //     latlng: null
+        // },
         venue: '',
+        lat: '',
+        lng: '',
         date: '',
     }
 
@@ -32,14 +41,12 @@ export default function EventFrom(setFormOpen) {
         description: Yup.string().required(),
         city: Yup.string().required(),
         venue: Yup.string().required(),
-        date: Yup.string().required(),
-        // city: Yup.object().shape({
-        //   address: Yup.string().required('City is required'),
-        // }),
         // venue: Yup.object().shape({
         //   address: Yup.string().required('Venue is required'),
         // }),
-        // date: Yup.string().required(),
+        lat: Yup.number().required(),
+        lng: Yup.number().required(),
+        date: Yup.string().required(),
     });
 
   return (
@@ -54,6 +61,7 @@ export default function EventFrom(setFormOpen) {
                     ? dispatch(updateEvent ({...selectedEvent, ...values}))
                     : dispatch(createEvent({...values, id: cuid(), hostedBy: 'Wan', attendees: [], hostPhotoURL: '/assets/user.png'}));
                 navigate('/events');
+                console.log(values)
             }}
         >
             {({isSubmitting, dirty, isValid}) =>(
@@ -63,8 +71,12 @@ export default function EventFrom(setFormOpen) {
                 <MySelectInput name='category' placeholder="Event Category" options={categoryData}/>
                 <MyTextArea name='description' placeholder="Description" rows={5}/>
                 <Header sub color='teal' content='Event Location'/>
-                <MyTextInput name='city' placeholder="City" />
-                <MyTextInput name='venue' placeholder="Venue" />
+                <MyPlaceSelect name='city' placeholder='City' options={countryData}/>
+                <MyTextInput name='venue' placeholder="Address" />
+                <div className='Grid'>
+                    <div><MyNumInput name='lat' placeholder="Lat"/></div>
+                    <div><MyNumInput name='lng' placeholder="Lng"/></div>
+                </div>
                 <MyDateInput 
                     name='date' 
                     placeholderText="Event Date"
@@ -90,8 +102,6 @@ export default function EventFrom(setFormOpen) {
                     content="Cancel"
                 />
             </Form>
-
-
             )}
         </Formik>
     </Segment>

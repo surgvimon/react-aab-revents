@@ -46,3 +46,10 @@ body {
 .t-center {
   text-align: center;
 }
+.Grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  margin-bottom: 15px;
+  
+}
