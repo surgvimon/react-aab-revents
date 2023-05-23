@@ -1,30 +1,35 @@
-import { sampleData } from './../../app/api/sampleData';
-import { CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT } from './eventConstants';
+import { CREATE_EVENT, UPDATE_EVENT, DELETE_EVENT, FETCH_EVENTS } from './eventConstants';
 
 const initialState = {
-    events: sampleData
-}
-export default function eventReducer( state=initialState, {type, payload}) {
+  events: [],
+};
+
+export default function eventReducer(state = initialState, { type, payload }) {
   switch (type) {
     case CREATE_EVENT:
-        return {
-            ...state,
-            events: [...state.events, payload],
-        };
+      return {
+        ...state,
+        events: [...state.events, payload],
+      };
     case UPDATE_EVENT:
-        return {
-            ...state,
-            events: [
-            ...state.events.filter((evt) => evt.id !== payload.id),
-            payload,
-            ],
-        };
+      return {
+        ...state,
+        events: [
+          ...state.events.filter((evt) => evt.id !== payload.id),
+          payload,
+        ],
+      };
     case DELETE_EVENT:
-    return {
+      return {
         ...state,
         events: [...state.events.filter((evt) => evt.id !== payload)],
-    };
+      };
+      case FETCH_EVENTS:
+        return {
+          ...state,
+          events: payload
+        }
     default:
-        return state;
+      return state;
   }
 }

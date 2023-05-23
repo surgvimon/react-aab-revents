@@ -7,6 +7,8 @@ import Layout from "./Layout";
 import Sandbox from "../../features/sanbox/Sandbox";
 import ScrollToTop from "./ScrollToTop";
 import ModalManager from "../common/modals/ModalManager";
+import { ToastContainer } from "react-toastify";
+import ErrorComponent from "../common/errors/ErrorComponent";
 
 
 function App() {
@@ -15,6 +17,7 @@ function App() {
       <Router>
       <ScrollToTop />
       <ModalManager />
+      <ToastContainer position="bottom-right" hideProgressBar/>
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />}/>
@@ -23,6 +26,8 @@ function App() {
             <Route path="/events/:id" element={<EventDetailedPage />}/>
             <Route path={"/create-event"} element={<EventFrom />}/>
             <Route path={"/manage/:id"} element={<EventFrom />}/>
+            <Route path='/error' element={<ErrorComponent />} />
+            <Route path='*' element={<ErrorComponent />} />
           </Route>
         </Routes>
       </Router>

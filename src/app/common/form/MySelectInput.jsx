@@ -9,6 +9,7 @@ export default function MySelectInput({label, ...props}) {
       <label>{label}</label>
       <Select 
         clearable 
+        search
         value={field.value || null} 
         onChange={(e, d) => helpers.setValue(d.value)} 
         onBlur={() => helpers.setTouched(true)} 

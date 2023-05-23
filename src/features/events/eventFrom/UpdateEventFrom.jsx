@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateEvent } from '../eventActions';
 
-export default function CreateEventFrom() {
+export default function UpdateEventFrom() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const param = useParams();
