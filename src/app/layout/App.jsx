@@ -9,6 +9,7 @@ import ScrollToTop from "./ScrollToTop";
 import ModalManager from "../common/modals/ModalManager";
 import { ToastContainer } from "react-toastify";
 import ErrorComponent from "../common/errors/ErrorComponent";
+import AccountPage from "../../features/auth/AccountPage";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path={"/create-event"} element={<EventFrom />}/>
             <Route path={"/manage/:id"} element={<EventFrom />}/>
             <Route path='/error' element={<ErrorComponent />} />
+            <Route path='/account' element={<AccountPage />} />
             <Route path='*' element={<ErrorComponent />} />
           </Route>
         </Routes>

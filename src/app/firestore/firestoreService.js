@@ -83,3 +83,11 @@ export function cancelEventToggle(event) {
     isCancelled: !event.isCancelled
   })
 }
+
+export function setUserProfileData(user) {
+  return setDoc(doc(db, 'users', user.uid), {
+    displayName: user.displayName,
+    email: user.email,
+    createdAt: serverTimestamp()
+  })
+}
