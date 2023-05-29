@@ -22,7 +22,9 @@ import {
   onSnapshot
 } from 'firebase/firestore';
 import cuid from 'cuid';
-import { db } from '../config/firebase';
+import { db, auth } from '../config/firebase';
+import { updateProfile } from 'firebase/auth';
+
 
 export function dataFromSnapshot(snapshot) {
   if (!snapshot.exists) return undefined;
@@ -90,4 +92,23 @@ export function setUserProfileData(user) {
     email: user.email,
     createdAt: serverTimestamp()
   })
+}
+
+export function getUserProfile(userId) {
+  return doc(db, 'users', userId);
+}
+
+
+export async function updateUserProfile(profile) {
+  const user = auth.currentUser;
+  try {
+    if (user.displayName !== profile.displayName) {
+      updateProfile(user, {
+        displayName: profile.displayName
+      })
+    }
+    return await updateDoc(doc(db, 'users', user.uid), profile)
+  } catch (error) {
+    throw error;
+  }
 }

@@ -15,6 +15,7 @@ import {
 import { getDatabase, ref as fbRef, push, query, orderByKey, limitToLast } from 'firebase/database';
 import { getStorage, ref, uploadBytesResumable, deleteObject } from 'firebase/storage';
 import { db, auth } from '../config/firebase';
+import { collection, doc } from 'firebase/firestore';
 
 
 // export function firebaseObjectToArray(snapshot) {
@@ -72,6 +73,7 @@ export function updateUserPassword(creds) {
   return updatePassword(user, creds.newPassword1);
 }
 
+
 // export function uploadToFirebaseStorage(file, filename) {
 //   const user = auth.currentUser;
 //   const storage = getStorage(app);
@@ -103,8 +105,8 @@ export function updateUserPassword(creds) {
 //   return query(fbRef(db, `chat/${eventId}`), orderByKey())
 // }
 
-// export function getUserFeedRef() {
-//   const user = auth.currentUser;
-//   if (!user) return;
-//   return query(fbRef(db, `posts/${user.uid}`), orderByKey(), limitToLast(5))
-// }
+export function getUserFeedRef() {
+  const user = auth.currentUser;
+  if (!user) return;
+  return query(fbRef(db, `posts/${user.uid}`), orderByKey(), limitToLast(5))
+}

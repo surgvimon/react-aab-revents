@@ -10,6 +10,7 @@ import ModalManager from "../common/modals/ModalManager";
 import { ToastContainer } from "react-toastify";
 import ErrorComponent from "../common/errors/ErrorComponent";
 import AccountPage from "../../features/auth/AccountPage";
+import ProfilePage from "../../features/profiles/profilePage/ProfilePage";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Route path={"/manage/:id"} element={<EventFrom />}/>
             <Route path='/error' element={<ErrorComponent />} />
             <Route path='/account' element={<AccountPage />} />
+            <Route path='/profile/:id' element={<ProfilePage />} />
             <Route path='*' element={<ErrorComponent />} />
           </Route>
         </Routes>
