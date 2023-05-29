@@ -37,11 +37,11 @@ import {
           ...state,
           selectedUserProfile: payload,
         };
-      // case LISTEN_TO_USER_PHOTOS:
-      //   return {
-      //     ...state,
-      //     photos: payload,
-      //   };
+      case LISTEN_TO_USER_PHOTOS:
+        return {
+          ...state,
+          photos: payload,
+        };
       // case LISTEN_TO_USER_EVENTS:
       //   return {
       //     ...state,

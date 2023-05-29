@@ -14,7 +14,7 @@ import {
 } from "firebase/auth";
 import { getDatabase, ref as fbRef, push, query, orderByKey, limitToLast } from 'firebase/database';
 import { getStorage, ref, uploadBytesResumable, deleteObject } from 'firebase/storage';
-import { db, auth } from '../config/firebase';
+import { app, db, auth } from '../config/firebase';
 import { collection, doc } from 'firebase/firestore';
 
 
@@ -73,20 +73,19 @@ export function updateUserPassword(creds) {
   return updatePassword(user, creds.newPassword1);
 }
 
+export function uploadToFirebaseStorage(file, filename) {
+  const user = auth.currentUser;
+  const storage = getStorage(app);
+  const storageRef = ref(storage, `${user.uid}/user_images/${filename}`);
+  return uploadBytesResumable(storageRef, file);
+}
 
-// export function uploadToFirebaseStorage(file, filename) {
-//   const user = auth.currentUser;
-//   const storage = getStorage(app);
-//   const storageRef = ref(storage, `${user.uid}/user_images/${filename}`);
-//   return uploadBytesResumable(storageRef, file);
-// }
-
-// export function deleteFromFirebaseStorage(filename) {
-//   const userUid = auth.currentUser.uid;
-//   const storage = getStorage(app);
-//   const storageRef = ref(storage, `${userUid}/user_images/${filename}`);
-//   return deleteObject(storageRef)
-// }
+export function deleteFromFirebaseStorage(filename) {
+  const userUid = auth.currentUser.uid;
+  const storage = getStorage(app);
+  const storageRef = ref(storage, `${userUid}/user_images/${filename}`);
+  return deleteObject(storageRef)
+}
 
 // export function addEventChatComment(eventId, values) {
 //   const user = auth.currentUser;

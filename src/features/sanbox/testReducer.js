@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { asyncActionError, asyncActionFinish, asyncActionStart } from "../../app/async/asyncReducer";
-import { delay } from "../../app/common/utill/utill";
+import { delay } from "../../app/common/util/util";
 
 const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
 const DECREMENT_COUNTER = 'DECREMENT_COUNTER';

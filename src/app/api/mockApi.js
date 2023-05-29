@@ -1,4 +1,4 @@
-import { delay } from "../common/utill/utill";
+import { delay } from "../common/util/util";
 import { sampleData } from "./sampleData";
 
 export function fetchSampleData(){
