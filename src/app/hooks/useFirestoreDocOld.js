@@ -19,7 +19,7 @@ export default function useFirestoreDocOld({query, data, deps, shouldExecute = t
                 data(dataFromSnapshot(snapshot));
                 dispatch(asyncActionFinish());
             },
-            error => dispatch(asyncActionError(error))
+            error => dispatch(asyncActionError())
         );
         return () => {
             unsubscribe()

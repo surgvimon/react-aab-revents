@@ -3,12 +3,14 @@ import { useSelector } from 'react-redux';
 import TestModal from '../../../features/sanbox/TestModal';
 import LoginForm from '../../../features/auth/LoginForm';
 import RegisterForm from '../../../features/auth/RegisterForm';
+import ChatFrom from '../../../features/events/eventFrom/ChatFrom';
 
 export default function ModalManager() {
     const modalLookup = {
         TestModal,
         LoginForm,
-        RegisterForm
+        RegisterForm,
+        ChatFrom
     };
     const currentModal = useSelector((state) => state.modals);
     let renderedModal;

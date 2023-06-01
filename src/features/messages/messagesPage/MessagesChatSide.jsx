@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Comment, Form, Header, Segment } from 'semantic-ui-react'
 
-export default function EventDetailedChat() {
+export default function MessagesChat() {
   return (
     <>
       <Segment
@@ -11,7 +11,7 @@ export default function EventDetailedChat() {
           color="teal"
           style={{border: 'none'}}
       >
-          <Header>Comments about this event</Header>
+          <Header>Chat about this event</Header>
       </Segment>
 
       <Segment attached>

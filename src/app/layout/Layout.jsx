@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import LoadingComponent from './LoadingComponent';
 
 export default function Layout() {
-  //const {key} = useLocation();
+  const {key} = useLocation();
   const location = useLocation();
   const { initialized } = useSelector( (state) => state.async);
 
@@ -14,7 +14,7 @@ export default function Layout() {
   return (
     <>
     {location.pathname !== "/" ? <NavBar/> : <></>}
-      <Outlet />
+      <Outlet key={key}/>
     </>
   )
 }

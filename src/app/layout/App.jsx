@@ -11,6 +11,8 @@ import { ToastContainer } from "react-toastify";
 import ErrorComponent from "../common/errors/ErrorComponent";
 import AccountPage from "../../features/auth/AccountPage";
 import ProfilePage from "../../features/profiles/profilePage/ProfilePage";
+import CreateEventFrom from "../../features/events/eventFrom/CreateEventFrom";
+import MessagesChatPage from "../../features/messages/messagesPage/MessagesChatPage";
 
 
 function App() {
@@ -26,11 +28,15 @@ function App() {
             <Route path="/events" element={<EventDashboard />}/>
             <Route path="/sandbox" element={<Sandbox />}/>
             <Route path="/events/:id" element={<EventDetailedPage />}/>
-            <Route path={"/create-event"} element={<EventFrom />}/>
+            <Route path={"/create-event"} element={<CreateEventFrom />}/>
             <Route path={"/manage/:id"} element={<EventFrom />}/>
+            {/* {['/create-event', '/manage/:id'].map((path, index) => (
+              <Route path={path} element={<EventFrom />} key={index}/>
+            ))} */}
             <Route path='/error' element={<ErrorComponent />} />
             <Route path='/account' element={<AccountPage />} />
             <Route path='/profile/:id' element={<ProfilePage />} />
+            <Route path='/messages/:id' element={<MessagesChatPage />} />
             <Route path='*' element={<ErrorComponent />} />
           </Route>
         </Routes>

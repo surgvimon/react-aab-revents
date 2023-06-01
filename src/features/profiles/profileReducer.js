@@ -14,12 +14,12 @@ import {
   const initialState = {
     currentUserProfile: null,
     selectedUserProfile: null,
-    // photos: [],
-    // profileEvents: [],
-    // followers: [],
-    // followings: [],
-    // followingUser: false,
-    // feed: [],
+    photos: [],
+    profileEvents: [],
+    followers: [],
+    followings: [],
+    followingUser: false,
+    feed: [],
   };
   
   export default function profileReducer(
@@ -42,11 +42,11 @@ import {
           ...state,
           photos: payload,
         };
-      // case LISTEN_TO_USER_EVENTS:
-      //   return {
-      //     ...state,
-      //     profileEvents: payload,
-      //   };
+      case LISTEN_TO_USER_EVENTS:
+        return {
+          ...state,
+          profileEvents: payload,
+        };
       // case LISTEN_TO_FOLLOWERS:
       //   return {
       //     ...state,

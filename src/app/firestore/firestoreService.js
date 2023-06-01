@@ -48,24 +48,69 @@ export function getEventsFromFirestore(observer){
   return onSnapshot(collection(db, "events"), observer);
 }
 
-export function listenToEventsFromFirestore() {
-  return query(collection(db, "events"), orderBy('date'));
+export function fetchEventsFromFirestore( filter, startDate, pageSize,lastDocSnapshot = null ) {
+  const user = auth.currentUser;
+  const q = query(collection(db, 'events'), orderBy('date'), startAfter(lastDocSnapshot), limit(pageSize));
+  switch (filter) {
+    case 'isGoing':
+      return query(q,
+        where('attendeeIds', 'array-contains', user.uid),
+        where('date', '>=', startDate)
+      )
+    case 'isHost':
+      return query(q,
+        where('hostUid', '==', user.uid),
+        where('date', '>=', startDate)
+      )
+    default:
+      return query(q,
+        where('date', '>=', startDate))
+  }
+}
+
+// export function listenToEventsFromFirestore() {
+//   return query(collection(db, "events"), orderBy('date'));
+// }
+
+export function listenToEventsFromFirestore(predicate) {
+  const user = auth.currentUser;
+  let eventsRef =  query(collection(db, "events"), orderBy('date'));
+  switch (predicate.get('filter')){
+    case 'isGoing':
+      return query(eventsRef,
+        where('attendeeIds', 'array-contains', user.uid),
+        where('date', '>=', predicate.get('startDate'))
+      )
+    case 'isHost':
+      return query(eventsRef,
+        where('hostUid', '==', user.uid),
+        where('date', '>=', predicate.get('startDate'))
+      )
+    default:
+      return query(eventsRef,
+        where('date', '>=', predicate.get('startDate')))
+    
+  }
 }
 
 export function listenToEventFromFirestore(eventId) {
+  // return query(collection(db, "events"), eventId);
   return doc(db, "events", eventId);
 }
 
 export function addEventToFirestore(event) {
+  const user = auth.currentUser;
   return addDoc(collection(db, 'events'), {
     ...event,
-    hostedBy: 'Diana',
-    hostPhotoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
+    hostUid: user.uid,
+    hostedBy: user.displayName,
+    hostPhotoURL: user.photoURL || null,
     attendees: arrayUnion({
-      id: cuid(),
-      displayName: 'Diana',
-      photoURL: 'https://randomuser.me/api/portraits/men/20.jpg'
+      id: user.uid,
+      displayName: user.displayName,
+      photoURL: user.photoURL || null
     }),
+    attendeeIds: arrayUnion(user.uid)
   })
 }
 

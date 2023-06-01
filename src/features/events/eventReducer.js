@@ -1,4 +1,17 @@
-import { CREATE_EVENT, UPDATE_EVENT, DELETE_EVENT, FETCH_EVENTS } from './eventConstants';
+import {
+  CREATE_EVENT,
+  UPDATE_EVENT,
+  DELETE_EVENT,
+  FETCH_EVENTS,
+  // LISTEN_TO_EVENT_CHAT,
+  // CLEAR_COMMENTS,
+  // LISTEN_TO_SELECTED_EVENT,
+  // CLEAR_EVENTS,
+  // SET_FILTER,
+  // SET_START_DATE,
+  // RETAIN_STATE,
+  // CLEAR_SELECTED_EVENT,
+} from './eventConstants';
 
 const initialState = {
   events: [],

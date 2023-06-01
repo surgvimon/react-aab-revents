@@ -11,10 +11,9 @@ import MySelectInput from '../../../app/common/form/MySelectInput';
 import { categoryData } from '../../../app/api/categoryOptions';
 import MyDateInput from '../../../app/common/form/MyDateInput';
 import { countryData } from '../../../app/api/cityOptions';
-import MyPlaceSelect from '../../../app/common/form/MyPlaceSelect';
 import MyNumInput from '../../../app/common/form/MyNumInput';
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc';
-import { addEventToFirestore, cancelEventToggle, listenToEventsFromFirestore, updateEventInFirestore } from '../../../app/firestore/firestoreService';
+import { addEventToFirestore, cancelEventToggle, listenToEventFromFirestore, updateEventInFirestore } from '../../../app/firestore/firestoreService';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { toast } from 'react-toastify';
 
@@ -56,7 +55,6 @@ export default function EventFrom() {
       try {
         await cancelEventToggle(event);
         setLoadingCancel(false);
-        selectedEvent.isCancelled = !selectedEvent.isCancelled;
       } catch (error) {
         setLoadingCancel(true);
         toast.error(error.message);
@@ -65,14 +63,16 @@ export default function EventFrom() {
 
     useFirestoreDoc({
       shouldExecute: !!param.id !== selectedEvent?.id && location.pathname !== '/createEvent',
-        query: () => listenToEventsFromFirestore(param.id),
-        data: (event) => dispatch(listenToEvents(event)),
+        query: () => listenToEventFromFirestore(param.id),
+        data: (event) => dispatch(listenToEvents([event])),
         deps: [param.id, dispatch],
     });
     
-    if (loading) 
-    return <LoadingComponent content='Loading...' />;
-    // if (error) return <Navigate replace to="/error" />;
+    if (loading || (!selectedEvent && !error))
+    return <LoadingComponent content='Loading event...' />;
+  
+    if (error) return <Navigate replace to="/error" />;
+  
 
   return (
     <Container className="main">
@@ -117,16 +117,20 @@ export default function EventFrom() {
                     timeCaption='time'
                     dateFormat='MMMM d, yyyy h:mm a'
                 />
-                {selectedEvent &&
-                  <Button 
-                      loading={loadingCancel}
-                      type="button" 
-                      floated="left" 
-                      color={selectedEvent.isCancelled ? 'green' : 'red'} 
-                      content={selectedEvent.isCancelled ? "Reactivate" : "Cancel Event"}
-                      onClick={() => setConfirmOpen(true)}
+                {selectedEvent && (
+                  <Button
+                    loading={loadingCancel}
+                    type='button'
+                    floated='left'
+                    color={selectedEvent.isCancelled ? 'green' : 'red'}
+                    content={
+                      selectedEvent.isCancelled
+                        ? 'Reactivate event'
+                        : 'Cancel Event'
+                    }
+                    onClick={() => setConfirmOpen(true)}
                   />
-                }
+                )}
                 <Button 
                     loading={isSubmitting} 
                     disabled={!isValid || !dirty || isSubmitting} 

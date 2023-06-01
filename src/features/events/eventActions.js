@@ -1,7 +1,32 @@
-import { CREATE_EVENT, UPDATE_EVENT, DELETE_EVENT, FETCH_EVENTS } from './eventConstants';
+import { 
+    CREATE_EVENT,
+    UPDATE_EVENT,
+    DELETE_EVENT,
+    FETCH_EVENTS,
+    // LISTEN_TO_EVENT_CHAT,
+    // LISTEN_TO_SELECTED_EVENT,
+    // CLEAR_EVENTS,
+    // SET_FILTER,
+    // SET_START_DATE,
+    // CLEAR_SELECTED_EVENT,
+  } from './eventConstants';
 import {asyncActionStart, asyncActionFinish, asyncActionError} from '../../app/async/asyncReducer';
 import {fetchSampleData} from '../../app/api/mockApi';
 
+
+// export function listenToSelectedEvent(event) {
+//     return {
+//         type: LISTEN_TO_SELECTED_EVENT,
+//         payload: event,
+//     };
+// }
+  
+// export function clearSelectedEvent() {
+//     return {
+//         type: CLEAR_SELECTED_EVENT
+//     }
+// }
+  
 export function loadEvents() {
     return async function(dispatch) {
         dispatch(asyncActionStart())
