@@ -4,7 +4,8 @@ import EventListAttendee from "./EventListAttendee";
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteEvent } from '../eventActions';
-import {format} from 'date-fns'
+import {format} from 'date-fns';
+import { th } from 'date-fns/locale';
 import { deleteEventInFirestore } from '../../../app/firestore/firestoreService';
 
 export default function EventListItem({event}) {
@@ -34,7 +35,7 @@ export default function EventListItem({event}) {
       </Segment>
       <Segment>
         <span>
-          <Icon  name="clock"/> {format(event.date, 'MMMM d, yyyy h:mm a')}
+          <Icon  name="clock"/> {format(event.date, 'MMMM d, ', { locale: th })}{String(Number(format(event.date, 'yyyy')) + 543)}{format(event.date, ' h:mm a', { locale: th })}
           <Icon  name="marker"/> {event.venue}
         </span>
       </Segment>

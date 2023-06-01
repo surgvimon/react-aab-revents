@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, Card, Grid, Header, Image, Tab } from 'semantic-ui-react'
 import ProfileForm from './ProfileForm';
 import { format } from 'date-fns';
+import { th } from 'date-fns/locale';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import useFirestoreCollection from '../../../app/hooks/useFirestoreCollection';
@@ -49,8 +50,8 @@ export default function EventsTab({profile}) {
                         <Card.Content>
                             <Card.Header content={event.title} textAlign='center'/>
                             <Card.Meta textAlign='center'>
-                                <div>{format(event.date, 'dd MMM yyyy')}</div>
-                                <div>{format(event.date, 'hh:mm a')}</div>
+                                <div>{format(event.date, 'MMMM d, ', { locale: th })}{String(Number(format(event.date, 'yyyy')) + 543)}</div>
+                                <div>{format(event.date, 'hh:mm a', { locale: th })}</div>
                             </Card.Meta>
                         </Card.Content>
                     </Card>
