@@ -1,10 +1,12 @@
 import { SIGN_IN_USER, SIGN_OUT_USER } from './authConstants';
-import { auth } from '../../app/config/firebase';
-import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
-import { onSnapshot } from 'firebase/firestore';
-import { APP_LOADED } from '../../app/async/asyncReducer';
-import { dataFromSnapshot, getUserProfile } from '../../app/firestore/firestoreService';
+import {APP_LOADED} from '../../app/async/asyncReducer';
+import { getUserProfile, dataFromSnapshot } from '../../app/firestore/firestoreService';
 import { listenToCurrentUserProfile } from '../profiles/profileActions';
+import {getAuth, onAuthStateChanged} from 'firebase/auth';
+import { app } from '../../app/config/firebase';
+import { onSnapshot } from '@firebase/firestore';
+
+const auth = getAuth(app);
 
 export function signInUser(user) {
     return {

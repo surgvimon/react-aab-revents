@@ -3,12 +3,12 @@ import {
     UPDATE_EVENT,
     DELETE_EVENT,
     FETCH_EVENTS,
-    // LISTEN_TO_EVENT_CHAT,
-    // LISTEN_TO_SELECTED_EVENT,
-    // CLEAR_EVENTS,
-    // SET_FILTER,
-    // SET_START_DATE,
-    // CLEAR_SELECTED_EVENT,
+    LISTEN_TO_EVENT_CHAT,
+    LISTEN_TO_SELECTED_EVENT,
+    CLEAR_EVENTS,
+    SET_FILTER,
+    SET_START_DATE,
+    CLEAR_SELECTED_EVENT,
   } from './eventConstants';
 import {asyncActionStart, asyncActionFinish, asyncActionError} from '../../app/async/asyncReducer';
 import {fetchSampleData} from '../../app/api/mockApi';
@@ -67,3 +67,11 @@ export function deleteEvent(eventId) {
         payload: eventId
     }
 }
+
+export function listenToEventChat(comments) {
+    return {
+      type: LISTEN_TO_EVENT_CHAT,
+      payload: comments,
+    };
+}
+  

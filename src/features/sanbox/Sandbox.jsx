@@ -7,9 +7,9 @@ import { openModal } from '../../app/common/modals/modalReducer';
 
 export default function Sandbox() {
   const [target, setTarget] = useState(null);
-    const dispatch = useDispatch();
-    const data = useSelector(state => state.test.data)
-    const {loading} = useSelector(state => state.async);
+  const dispatch = useDispatch();
+  const data = useSelector(state => state.test.data)
+  const {loading} = useSelector(state => state.async);
   return (
     <>
     <Container className='main'>

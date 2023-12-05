@@ -28,24 +28,6 @@ export default function EventDetailedPage() {
     deps: [param.id, dispatch]
   });
   
-  // useEffect(() => {
-  //   dispatch(asyncActionStart());
-  //   const unsubscribe = onSnapshot(listenToEventFromFirestore(param.id),
-  //       snapshot => {
-  //           if (!snapshot.exists) {
-  //               dispatch(asyncActionError({code: 'not-found', message: 'Could not find document'}));
-  //               return;
-  //           }
-  //           // console.log(dataFromSnapshot(snapshot));
-  //           dispatch(asyncActionFinish());
-  //       },
-  //       error => dispatch(asyncActionError())
-  //   );
-    
-  //   return () => {
-  //     unsubscribe()
-  //     }
-  // },[param.id, dispatch])
 
   if (loading || (!event && !error))
   return <LoadingComponent content='Loading event...' />;
@@ -59,14 +41,13 @@ export default function EventDetailedPage() {
         <Grid.Column width={10}>
           <EventDetailedHeader event={event} isGoing={isGoing} isHost={isHost} />
           <EventDetailedInfo event={event}/>
-          <EventDetailedChat />
+          <EventDetailedChat eventId={event.id}/>
         </Grid.Column>
         <Grid.Column width={6}>
-        <EventDetailedSidebar
-          attendees={event?.attendees}
-          hostUid={event.hostUid}
-          currentUser={currentUser.uid}
-        />
+          <EventDetailedSidebar
+            attendees={event?.attendees}
+            hostUid={event.hostUid}
+          />
         </Grid.Column>
       </Grid>
     </Container>

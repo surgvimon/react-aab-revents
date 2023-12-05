@@ -1,10 +1,10 @@
 import {initializeApp} from 'firebase/app';
-import { getAuth, updateProfile } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyDZZ1_ELWcz0fyT1bYQu7-eR3se-0BQFnw",
   authDomain: "realtor-e978d.firebaseapp.com",
+  databaseURL: "https://realtor-e978d-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "realtor-e978d",
   storageBucket: "realtor-e978d.appspot.com",
   messagingSenderId: "318042603999",
@@ -14,5 +14,3 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);

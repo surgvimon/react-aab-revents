@@ -21,10 +21,11 @@ import {
   startAfter,
   onSnapshot
 } from 'firebase/firestore';
-import cuid from 'cuid';
-import { db, auth } from '../config/firebase';
-import { updateProfile } from 'firebase/auth';
+import { getAuth, updateProfile } from 'firebase/auth';
+import { app } from '../config/firebase';
 
+const db = getFirestore(app);
+const auth = getAuth(app);
 
 export function dataFromSnapshot(snapshot) {
   if (!snapshot.exists) return undefined;

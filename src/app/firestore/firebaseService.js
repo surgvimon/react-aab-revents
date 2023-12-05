@@ -1,7 +1,6 @@
 import { setUserProfileData } from './firestoreService';
 import { toast } from 'react-toastify';
 import {
-  getAuth,
   signInWithEmailAndPassword,
   signOut,
   createUserWithEmailAndPassword,
@@ -11,18 +10,20 @@ import {
   signInWithPopup,
   updatePassword,
   signInWithPhoneNumber,
+  getAuth,
 } from "firebase/auth";
 import { getDatabase, ref as fbRef, push, query, orderByKey, limitToLast } from 'firebase/database';
 import { getStorage, ref, uploadBytesResumable, deleteObject } from 'firebase/storage';
-import { app, db, auth } from '../config/firebase';
-import { collection, doc } from 'firebase/firestore';
+import { app } from '../config/firebase';
 
+const auth = getAuth(app);
+const db = getDatabase(app);
 
-// export function firebaseObjectToArray(snapshot) {
-//   if (snapshot) {
-//     return Object.entries(snapshot).map(e => Object.assign({}, e[1], { id: e[0] }))
-//   }
-// }
+export function firebaseObjectToArray(snapshot) {
+  if (snapshot) {
+    return Object.entries(snapshot).map(e => Object.assign({}, e[1], { id: e[0] }))
+  }
+}
 
 export function signInWithEmail(creds) {
   return signInWithEmailAndPassword(auth, creds.email, creds.password);
@@ -87,22 +88,22 @@ export function deleteFromFirebaseStorage(filename) {
   return deleteObject(storageRef)
 }
 
-// export function addEventChatComment(eventId, values) {
-//   const user = auth.currentUser;
-//   const newComment = {
-//       displayName: user.displayName,
-//       photoURL: user.photoURL,
-//       uid: user.uid,
-//       text: values.comment,
-//       date: Date.now(),
-//       parentId: values.parentId
-//   }
-//   return push(fbRef(db, `chat/${eventId}`), newComment);
-// }
+export function addEventChatComment(eventId, values) {
+  const user = auth.currentUser;
+  const newComment = {
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      uid: user.uid,
+      text: values.comment,
+      date: Date.now(),
+      parentId: values.parentId
+  }
+  return push(fbRef(db, `comment/${eventId}`), newComment);
+}
 
-// export function getEventChatRef(eventId) {
-//   return query(fbRef(db, `chat/${eventId}`), orderByKey())
-// }
+export function getEventChatRef(eventId) {
+  return query(fbRef(db, `comment/${eventId}`), orderByKey())
+}
 
 export function getUserFeedRef() {
   const user = auth.currentUser;
