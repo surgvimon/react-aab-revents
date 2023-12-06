@@ -298,8 +298,17 @@ export async function followUser(profile) {
       displayName: profile.displayName,
       photoURL: profile.photoURL || '/assets/user.png',
       uid: profile.id
-    });
+    })
 
+    batch.set(doc(db, 'following', profile.id, 'userFollowers', user.uid), {
+      displayName: user.displayName,
+      photoURL: user.photoURL || '/assets/user.png',
+      uid: user.uid
+    })
+    
+    batch.update(doc(db, 'users', profile.id), {
+      followerCount: increment(1)
+    })
     batch.update(doc(db, 'users', user.uid), {
       followingCount: increment(1)
     })
@@ -314,8 +323,12 @@ export async function unfollowUser(profile) {
   const batch = writeBatch(db);
   try {
     batch.delete(doc(db, 'following', user.uid, 'userFollowing', profile.id));
+    batch.delete(doc(db, 'following', profile.id, 'userFollowers', user.uid));
     batch.update(doc(db, 'users', user.uid), {
       followingCount: increment(-1)
+    })
+    batch.update(doc(db, 'users', profile.id), {
+      followerCount: increment(-1)
     })
     return await batch.commit();
   } catch (e) {
@@ -333,5 +346,7 @@ export function getFollowingCollection(profileId) {
 
 export function getFollowingDoc(profileId) {
   const userUid = auth.currentUser.uid;
+  // return profileId+"_"+userUid;
   return getDoc(doc(db, 'following', userUid, 'userFollowing', profileId))
+
 }
